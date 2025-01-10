@@ -7,8 +7,24 @@ import sys
 class YOLOModelDownloader:
     def __init__(self, version):
         self.version = version
-        self.base_url = f"https://github.com/myselfbasil/cv_toolkit/blob/main/src/computer_vision_toolkit/object_detection/models/yolov8/yolov8m.pt"
+        self.base_url = self.get_base_url(version)
         self.model_path = f"yolo{version}.pt"
+    
+    def get_base_url(self, version):
+        # Define URLs for YOLO models from v5 to v11
+        urls = {
+            "5": "https://github.com/ultralytics/assets/releases/download/v8.3.0/yolov5s.pt",
+            "6": "https://github.com/ultralytics/assets/releases/download/v8.3.0/yolov6.pt",
+            "7": "https://github.com/ultralytics/assets/releases/download/v8.3.0/yolov7.pt",
+            "8": "https://github.com/ultralytics/assets/releases/download/v8.3.0/yolov8.pt",
+            "9": "https://github.com/ultralytics/assets/releases/download/v8.3.0/yolov9.pt",
+            "10": "https://github.com/ultralytics/assets/releases/download/v8.3.0/yolov10.pt",
+            "11": "https://github.com/ultralytics/assets/releases/download/v8.3.0/yolo11.pt"
+        }
+        if version not in urls:
+            raise ValueError("Unsupported version. Use versions from '5' to '11'.")
+        
+        return urls[version]
     
     def download_model(self):
         if not os.path.exists(self.model_path):
@@ -34,6 +50,11 @@ def main():
     
     version = sys.argv[1].replace("-", "")
     
+    # Check if the version is less than 5
+    if int(version) < 5:
+        print("This script only supports YOLO versions from 5 and above.")
+        sys.exit(1)
+
     # Download model
     downloader = YOLOModelDownloader(version)
     model_path = downloader.download_model()
@@ -41,11 +62,10 @@ def main():
     # Load model
     model = YOLO(model_path)
     
-    # Example inference
-    results = model("path/to/test/image.jpg")
+    # Example inference on multi-class detection
+    results = model("path/to/test/image.jpg")  # Ensure this path is valid and points to an image file
     results.show()
     results.save()
 
 if __name__ == "__main__":
     main()
-
