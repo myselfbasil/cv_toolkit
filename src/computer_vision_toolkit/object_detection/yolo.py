@@ -7,7 +7,7 @@ import sys
 class YOLOModelDownloader:
     def __init__(self, version):
         self.version = version
-        self.base_url = f"https://github.com/ultralytics/assets/releases/download/v0.0.0/yolo{version}.pt"
+        self.base_url = f"https://github.com/myselfbasil/cv_toolkit/blob/main/src/computer_vision_toolkit/object_detection/models/yolov8/yolov8m.pt"
         self.model_path = f"yolo{version}.pt"
     
     def download_model(self):
