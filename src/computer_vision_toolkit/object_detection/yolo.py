@@ -13,13 +13,13 @@ class YOLOModelDownloader:
     def get_base_url(self, version):
         # Define URLs for YOLO models from v5 to v11
         urls = {
-            "5": "https://github.com/ultralytics/assets/releases/download/v8.3.0/yolov5s.pt",
-            "6": "https://github.com/ultralytics/assets/releases/download/v8.3.0/yolov6.pt",
-            "7": "https://github.com/ultralytics/assets/releases/download/v8.3.0/yolov7.pt",
-            "8": "https://github.com/ultralytics/assets/releases/download/v8.3.0/yolov8.pt",
-            "9": "https://github.com/ultralytics/assets/releases/download/v8.3.0/yolov9.pt",
-            "10": "https://github.com/ultralytics/assets/releases/download/v8.3.0/yolov10.pt",
-            "11": "https://github.com/ultralytics/assets/releases/download/v8.3.0/yolo11.pt"
+            "5": "https://github.com/myselfbasil/cv_toolkit/blob/main/src/computer_vision_toolkit/object_detection/models/yolov5/yolov5m.pt",
+            "6": "https://github.com/myselfbasil/cv_toolkit/blob/main/src/computer_vision_toolkit/object_detection/models/yolov6/yolov6m.pt",
+            "7": "https://github.com/myselfbasil/cv_toolkit/blob/main/src/computer_vision_toolkit/object_detection/models/yolov7/yolov7m.pt",
+            "8": "https://github.com/myselfbasil/cv_toolkit/blob/main/src/computer_vision_toolkit/object_detection/models/yolov8/yolov8m.pt",
+            "9": "https://github.com/myselfbasil/cv_toolkit/blob/main/src/computer_vision_toolkit/object_detection/models/yolov9/yolov9m.pt",
+            "10": "https://github.com/myselfbasil/cv_toolkit/blob/main/src/computer_vision_toolkit/object_detection/models/yolov10/yolov10m.pt",
+            "11": "https://github.com/myselfbasil/cv_toolkit/blob/main/src/computer_vision_toolkit/object_detection/models/yolov11/yolov11m.pt"
         }
         if version not in urls:
             raise ValueError("Unsupported version. Use versions from '5' to '11'.")
