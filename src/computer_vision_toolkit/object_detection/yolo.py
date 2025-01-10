@@ -63,7 +63,7 @@ def main():
     model = YOLO(model_path)
     
     # Example inference on multi-class detection
-    results = model("path/to/test/image.jpg")  # Ensure this path is valid and points to an image file
+    results = model("test.jpeg")  # Ensure this path is valid and points to an image file
     results.show()
     results.save()
 
