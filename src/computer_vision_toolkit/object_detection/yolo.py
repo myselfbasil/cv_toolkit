@@ -3,6 +3,7 @@ import torch
 from ultralytics import YOLO
 import requests
 import sys
+from glob import glob
 
 class YOLOModelDownloader:
     def __init__(self, version):
@@ -44,8 +45,8 @@ class YOLOModelDownloader:
         return self.model_path
 
 def main():
-    if len(sys.argv) < 2 or not sys.argv[1].startswith("-yolov"):
-        print("Usage: python yolo.py -yolov*")
+    if len(sys.argv) < 3 or not sys.argv[1].startswith("-yolov"):
+        print("Usage: python yolo.py -yolov* <path_to_dataset>")
         sys.exit(1)
     
     version = sys.argv[1].replace("-", "")
@@ -55,6 +56,8 @@ def main():
         print("This script only supports YOLO versions from 5 and above.")
         sys.exit(1)
 
+    dataset_path = sys.argv[2]
+    
     # Download model
     downloader = YOLOModelDownloader(version)
     model_path = downloader.download_model()
@@ -62,10 +65,13 @@ def main():
     # Load model
     model = YOLO(model_path)
     
-    # Example inference on multi-class detection
-    results = model("test.jpeg")  # Ensure this path is valid and points to an image file
-    results.show()
-    results.save()
+    # Process each image in the dataset directory
+    image_paths = glob(os.path.join(dataset_path, "*.jpg")) + glob(os.path.join(dataset_path, "*.jpeg")) + glob(os.path.join(dataset_path, "*.png"))
+    
+    for image_path in image_paths:
+        results = model(image_path)  # Run inference on each image
+        results.show()               # Display results
+        results.save()               # Save results
 
 if __name__ == "__main__":
     main()
