@@ -14,19 +14,19 @@ class YOLOModelDownloader:
     def get_base_url(self, version):
         # Define URLs for YOLO models from v5 to v11
         urls = {
-            "5": "https://github.com/myselfbasil/cv_toolkit/blob/main/src/computer_vision_toolkit/object_detection/models/yolov5/yolov5m.pt",
-            "6": "https://github.com/myselfbasil/cv_toolkit/blob/main/src/computer_vision_toolkit/object_detection/models/yolov6/yolov6m.pt",
-            "7": "https://github.com/myselfbasil/cv_toolkit/blob/main/src/computer_vision_toolkit/object_detection/models/yolov7/yolov7m.pt",
-            "8": "https://github.com/myselfbasil/cv_toolkit/blob/main/src/computer_vision_toolkit/object_detection/models/yolov8/yolov8m.pt",
-            "9": "https://github.com/myselfbasil/cv_toolkit/blob/main/src/computer_vision_toolkit/object_detection/models/yolov9/yolov9m.pt",
-            "10": "https://github.com/myselfbasil/cv_toolkit/blob/main/src/computer_vision_toolkit/object_detection/models/yolov10/yolov10m.pt",
-            "11": "https://github.com/myselfbasil/cv_toolkit/blob/main/src/computer_vision_toolkit/object_detection/models/yolov11/yolov11m.pt"
+            "5": "https://github.com/ultralytics/assets/releases/download/v0.0.0/yolov5m.pt",
+            "6": "https://github.com/meituan/YOLOv6/releases/download/0.1.0/yolov6s.pt",
+            "7": "https://github.com/WongKinYiu/yolov7/releases/download/v0.1/yolov7.pt",
+            "8": "https://github.com/ultralytics/assets/releases/download/v8.2.0/yolov8m.pt",
+            "9": "https://github.com/ultralytics/assets/releases/download/v0.0.0/yolov9m.pt",
+            "10": "https://github.com/ultralytics/assets/releases/download/v0.0.0/yolov10m.pt",
+            "11": "https://github.com/ultralytics/assets/releases/download/v8.3.0/yolo11m.pt",
         }
         if version not in urls:
             raise ValueError("Unsupported version. Use versions from '5' to '11'.")
         
         return urls[version]
-    
+
     def download_model(self):
         if not os.path.exists(self.model_path):
             try:
@@ -49,7 +49,10 @@ def main():
         print("Usage: python yolo.py -yolov* <path_to_dataset>")
         sys.exit(1)
     
-    version = sys.argv[1].replace("-", "")
+    version = sys.argv[1].replace("-yolov", "")
+    if not version.isdigit():
+        print("Invalid version format. Please use a format like '-yolov8'.")
+        sys.exit(1)
     
     # Check if the version is less than 5
     if int(version) < 5:
@@ -70,8 +73,11 @@ def main():
     
     for image_path in image_paths:
         results = model(image_path)  # Run inference on each image
-        results.show()               # Display results
-        results.save()               # Save results
+        
+        # Iterate through results list
+        for result in results:
+            result.show()  # Display results
+            # result.save()  # Remove or comment this line to avoid saving
 
 if __name__ == "__main__":
     main()
